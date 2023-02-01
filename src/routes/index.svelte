@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import StarIcon from '$lib/icons/Star.svelte';
   import scratch from '$lib/use/scratch';
-  import { fade } from 'svelte/transition';
+  import { fade, slide } from 'svelte/transition';
 
   let manifests = [{
     emoji: '⭐',
@@ -63,7 +63,7 @@
     </div>
     <div>
       <a href="https://paralect.com" target="_blank" class="py-2 px-4 bg-black rounded-2xl text-white">
-        Build with Paralect
+         Build with Paralect
       </a>
     </div>
   </div>
@@ -71,25 +71,43 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-8">
     {#if isShown}
       {#each manifests as manifest, i}
-        <a href="{manifest.url}" target="_blank" on:click="{(e) => { if (!manifest.url) { e.preventDefault(); }}}" in:fade={{ delay: i*50 }}>
+        <a 
+          href="{manifest.url}"
+          target="_blank" on:click="{(e) => { if (!manifest.url) { e.preventDefault(); }}}" in:fade={{ delay: i*50 }}
+          on:mouseenter={() => manifest.isHover = true}
+        >
           <div 
-            class="z-100 whitespace-pre overflow-hidden relative text-2xl text-center py-8 px-4 flex flex-col justify-center items-center aspect-square rounded-xl {manifest.isHidden ? 'bg-[#ebebeb] cursor-not-allowed' : 'bg-black text-white'}"
+            class="transition-all duration-300 z-100 whitespace-pre overflow-hidden relative text-2xl text-center py-8 px-4 flex flex-col justify-center items-center aspect-square rounded-xl {manifest.isHidden ? 'bg-[#ebebeb] cursor-not-allowed' : 'text-white'} {manifest.isHover ? 'bg-black' : ''}"
             use:scratch
           >
-            <div class="z-10 mb-2">
+            <div
+              class="z-10 mb-2 text-3xl scale-150" 
+              class:text-2xl={!manifest.isHover}
+            >
               {manifest.emoji || '🔒'}
             </div>
-            <div class="z-10">
-              {manifest.name || manifest.date}
-            </div>
+
+            {#if manifest.date}
+              <div class="z-10">
+                {manifest.name || manifest.date}
+              </div>
+            {:else}
+              {#if manifest.isHover}
+                <div class="z-10" transition:slide>
+                  {manifest.name}
+                </div>
+              {/if}
+            {/if}
           </div>
         </a>
       {/each}
     {/if}
   </div>
 
-  <div class="text-xl text-center mt-16 mb-8 text-gray-600">
-    <a href="https://paralect.com" target="_blank">Paralect</a> is a cozy startup studio. <br />
+  <div class="text-xl text-center mt-16 mb-8 text-gray-600" style="font-family: system-ui;">
+    <div class="mb-2">
+      <a href="https://paralect.com" target="_blank">Paralect</a> is a cozy startup studio.
+    </div>
     We're on the mission to enable everyone from our community to build $1M+ startups.
   </div>
 </div>
