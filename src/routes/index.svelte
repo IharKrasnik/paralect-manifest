@@ -1,6 +1,8 @@
 <script>
+  import { onMount } from 'svelte';
   import StarIcon from '$lib/icons/Star.svelte';
   import scratch from '$lib/use/scratch';
+  import { fade } from 'svelte/transition';
 
   let manifests = [{
     emoji: '⭐',
@@ -14,9 +16,6 @@
     emoji: '🔆',
     name: `Give before \n you get`,
     url: 'https://www.linkedin.com/feed/update/urn:li:activity:7026553104942645249'
-  }, {
-    isHidden: true,
-    date: 'Jan 31',
   }, {
     isHidden: true,
     date: 'Feb 3',
@@ -41,7 +40,14 @@
   }, {
     isHidden: true,
     date: 'Feb 28',
-  }]
+  }];
+
+  let isShown = false;
+
+  onMount(() => {
+    isShown = true;
+  });
+
 </script>
 
 <div class="container max-w-[800px] mx-auto mt-4">
@@ -63,21 +69,23 @@
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-    {#each manifests as manifest}
-      <a href="{manifest.url}" target="_blank" on:click="{(e) => { if (!manifest.url) { e.preventDefault(); }}}">
-        <div 
-          class="z-100 whitespace-pre overflow-hidden relative text-2xl text-center py-8 px-4 flex flex-col justify-center items-center aspect-square rounded-xl {manifest.isHidden ? 'bg-[#ebebeb] cursor-not-allowed' : 'bg-black text-white'}"
-          use:scratch
-        >
-          <div class="z-10 mb-2">
-            {manifest.emoji || '🔒'}
+    {#if isShown}
+      {#each manifests as manifest, i}
+        <a href="{manifest.url}" target="_blank" on:click="{(e) => { if (!manifest.url) { e.preventDefault(); }}}" in:fade={{ delay: i*50 }}>
+          <div 
+            class="z-100 whitespace-pre overflow-hidden relative text-2xl text-center py-8 px-4 flex flex-col justify-center items-center aspect-square rounded-xl {manifest.isHidden ? 'bg-[#ebebeb] cursor-not-allowed' : 'bg-black text-white'}"
+            use:scratch
+          >
+            <div class="z-10 mb-2">
+              {manifest.emoji || '🔒'}
+            </div>
+            <div class="z-10">
+              {manifest.name || manifest.date}
+            </div>
           </div>
-          <div class="z-10">
-            {manifest.name || manifest.date}
-          </div>
-        </div>
-      </a>
-    {/each}
+        </a>
+      {/each}
+    {/if}
   </div>
 
   <div class="text-xl text-center mt-16 mb-8 text-gray-600">
