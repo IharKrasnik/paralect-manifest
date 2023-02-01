@@ -66,7 +66,7 @@
     {#each manifests as manifest}
       <a href="{manifest.url}" target="_blank" on:click="{(e) => { if (!manifest.url) { e.preventDefault(); }}}">
         <div 
-          class="z-100 whitespace-pre overflow-hidden relative text-2xl text-center py-8 px-4 flex flex-col justify-center items-center aspect-square rounded-xl {manifest.isHidden ? 'bg-[#ebebeb]' : 'bg-black text-white'}"
+          class="z-100 whitespace-pre overflow-hidden relative text-2xl text-center py-8 px-4 flex flex-col justify-center items-center aspect-square rounded-xl {manifest.isHidden ? 'bg-[#ebebeb] cursor-not-allowed' : 'bg-black text-white'}"
           use:scratch
         >
           <div class="z-10 mb-2">
