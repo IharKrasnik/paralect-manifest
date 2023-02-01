@@ -81,8 +81,9 @@
             use:scratch
           >
             <div
-              class="z-10 mb-2 text-3xl scale-150" 
+              class="z-10 mb-2 text-3xl transition duration-300" 
               class:text-2xl={!manifest.isHover}
+              class:scale-150={!manifest.isHidden && !manifest.isHover}
             >
               {manifest.emoji || '🔒'}
             </div>
