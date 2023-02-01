@@ -6,7 +6,7 @@
 
   let manifests = [{
     emoji: '⭐',
-    name: 'Act as\n entrepreuner',
+    name: 'Act as\n entrepreneur',
     url: 'https://www.linkedin.com/feed/update/urn:li:activity:7024172236982919168/'
   }, {
     emoji: '🗽',
