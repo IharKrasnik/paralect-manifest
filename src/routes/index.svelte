@@ -66,15 +66,10 @@
     {#each manifests as manifest}
       <a href="{manifest.url}" target="_blank" on:click="{(e) => { if (!manifest.url) { e.preventDefault(); }}}">
         <div 
-          class="z-100 whitespace-pre overflow-hidden relative text-2xl text-center py-8 px-4 flex flex-col justify-center items-center bg-[#ebebeb] aspect-square rounded-xl {manifest.isHidden ? '' : 'text-white'}"
+          class="z-100 whitespace-pre overflow-hidden relative text-2xl text-center py-8 px-4 flex flex-col justify-center items-center aspect-square rounded-xl {manifest.isHidden ? 'bg-[#ebebeb]' : 'bg-black text-white'}"
           use:scratch
         >
-          {#if !manifest.isHidden}
-            <div class="absolute z-0">
-              <StarIcon />
-            </div>
-          {/if}
-          <div class="z-10">
+          <div class="z-10 mb-2">
             {manifest.emoji || '🔒'}
           </div>
           <div class="z-10">
